@@ -14,8 +14,14 @@ OAuthClient *oClient = [[OAuthClient alloc] initWithBaseURL:kMyOAuthBaseURL cons
 		//oClient is now authenticated and can be used to create the Authorization header for AFNetworking.
 		NSString *authheader = [oClient authHeaderForHTTPMethod:@"POST" URL:@"http://example.com/api/verify" verifier:nil parameters:nil];
 		[myAFNetworkingInstance setDefaultHeader:@"Authorization" value:authHeader];
-		[myAFNetworkingInstance getPath:@"verifiyTokens" parameters:nil success:nil failure:nil];
-	}]
+		[myAFNetworkingInstance getPath:@"verifiyTokens" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+			NSLog(@"%@", responseObject);
+		} failure:^(NSError *error) {
+			NSLog(@"%@", error);
+		}];
+	} failure:^(NSError *error) {
+		NSLog(@"%@", error);
+	}];
 } failure:^(NSError *error) {
 	NSLog(@"%@", error);
 }];
